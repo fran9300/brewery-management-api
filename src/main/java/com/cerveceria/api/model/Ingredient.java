@@ -1,9 +1,7 @@
 package com.cerveceria.api.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,10 +14,11 @@ import lombok.NoArgsConstructor;
 public class Ingredient {
 
     @Id
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private String type;
-    private double quantity;
+    private Double quantity;
     private String unit;
 
 }
