@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/ingredients")
+@CrossOrigin(origins = "*") //permitir peticiones desde cualquier origen (para probar en mi front basico)
 public class IngredientController {
 
     private final IngredientService ingredientService;
