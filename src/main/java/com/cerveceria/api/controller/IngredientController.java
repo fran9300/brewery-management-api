@@ -1,9 +1,7 @@
 package com.cerveceria.api.controller;
 
 import com.cerveceria.api.model.Ingredient;
-import com.cerveceria.api.repository.IngredientRepository;
 import com.cerveceria.api.service.IngredientService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
