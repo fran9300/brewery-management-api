@@ -10,7 +10,8 @@ import java.util.List;
 public class Recipe {
 
     @Id
-    private Long Id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private String style;
     @Column(length = 1000)
