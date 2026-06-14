@@ -23,6 +23,11 @@ public class RecipeController {
         return recipeService.listarTodas();
     }
 
+    @GetMapping("/{id}")
+    public Recipe getById(@PathVariable Long id){
+        return recipeService.buscarPorId(id);
+    }
+
     @PostMapping
     public Recipe create(@RequestBody Recipe recipe) {
         return recipeService.crear(recipe);

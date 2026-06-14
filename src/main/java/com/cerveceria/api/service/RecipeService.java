@@ -32,4 +32,9 @@ public class RecipeService {
         recipe.getIngredients().add(ingredient);
         return recipeRepository.save(recipe);
     }
+
+    public Recipe buscarPorId(Long id){
+        return recipeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Receta no encontrada"));
+    }
 }
