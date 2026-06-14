@@ -1,8 +1,6 @@
 package com.cerveceria.api.controller;
 
-import com.cerveceria.api.model.Ingredient;
 import com.cerveceria.api.model.Recipe;
-import com.cerveceria.api.service.IngredientService;
 import com.cerveceria.api.service.RecipeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -21,29 +19,29 @@ public class RecipeController {
 
     @GetMapping
     public List<Recipe> getAll() {
-        return recipeService.listarTodas();
+        return recipeService.findAll();
     }
 
     @GetMapping("/{id}")
     public Recipe getById(@PathVariable Long id){
-        return recipeService.buscarPorId(id);
+        return recipeService.findById(id);
     }
 
     @PostMapping
     public Recipe create(@RequestBody Recipe recipe) {
-        return recipeService.crear(recipe);
+        return recipeService.create(recipe);
     }
 
     @PostMapping("/{recipeId}/ingredients/{ingredientId}")
     public Recipe addIngredient(@PathVariable Long recipeId,
                                 @PathVariable Long ingredientId){
-        return recipeService.agregarIngredienteAReceta(recipeId, ingredientId);
+        return recipeService.addIngredientToRecipe(recipeId, ingredientId);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id){
-        recipeService.eliminar(id);
+        recipeService.delete(id);
     }
 
 }

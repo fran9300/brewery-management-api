@@ -1,5 +1,6 @@
 package com.cerveceria.api.service;
 
+import com.cerveceria.api.exception.ResourceNotFoundException;
 import com.cerveceria.api.model.Ingredient;
 import com.cerveceria.api.model.Recipe;
 import com.cerveceria.api.repository.IngredientRepository;
@@ -18,28 +19,31 @@ public class RecipeService {
         this.ingredientRepository = ingredientRepository;
     }
 
-    public List<Recipe> listarTodas(){
+    public List<Recipe> findAll(){
         return recipeRepository.findAll();
     }
 
-    public Recipe crear(Recipe recipe){
+    public Recipe create(Recipe recipe){
         return recipeRepository.save(recipe);
     }
 
-    public Recipe agregarIngredienteAReceta(Long recipeId, Long ingredienteId){
-        Recipe recipe = recipeRepository.findById(recipeId).orElseThrow(() -> new RuntimeException("receta no encontrada"));
-        Ingredient ingredient = ingredientRepository.findById(ingredienteId).orElseThrow(() -> new RuntimeException("ingrediente no encontrado"));
+    public Recipe addIngredientToRecipe(Long recipeId, Long ingredienteId){
+        Recipe recipe = recipeRepository.findById(recipeId).orElseThrow(() ->
+                                                                    new ResourceNotFoundException("Recipe not found"));
+        Ingredient ingredient = ingredientRepository.findById(ingredienteId).orElseThrow(() ->
+                                                                                    new ResourceNotFoundException("Ingredient not found"));
         recipe.getIngredients().add(ingredient);
         return recipeRepository.save(recipe);
     }
 
-    public Recipe buscarPorId(Long id){
+    public Recipe findById(Long id){
         return recipeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Receta no encontrada"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Recipe not found"));
     }
 
-    public void eliminar(Long id){
-        Recipe recipe = buscarPorId(id);
+    public void delete(Long id){
+        Recipe recipe = findById(id);
         recipeRepository.delete(recipe);
     }
 }

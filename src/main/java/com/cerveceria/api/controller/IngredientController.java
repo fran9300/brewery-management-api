@@ -20,17 +20,17 @@ public class IngredientController {
 
     @GetMapping
     public List<Ingredient> getAll() {
-        return ingredientService.listarTodos();
+        return ingredientService.findAll();
     }
 
     @GetMapping("/{id}")
     public Ingredient getById(@PathVariable Long id) {
-        return ingredientService.buscarPorId(id);
+        return ingredientService.findById(id);
     }
 
     @PostMapping
     public Ingredient create(@RequestBody Ingredient ingredient) {
-        return ingredientService.guardar(ingredient);
+        return ingredientService.save(ingredient);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
