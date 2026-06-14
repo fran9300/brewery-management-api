@@ -2,6 +2,7 @@ package com.cerveceria.api.controller;
 
 import com.cerveceria.api.model.Ingredient;
 import com.cerveceria.api.service.IngredientService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,5 +31,11 @@ public class IngredientController {
     @PostMapping
     public Ingredient create(@RequestBody Ingredient ingredient) {
         return ingredientService.guardar(ingredient);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id){
+        ingredientService.eliminar(id);
     }
 }

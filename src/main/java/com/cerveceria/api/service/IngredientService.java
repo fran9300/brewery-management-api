@@ -29,5 +29,10 @@ public class IngredientService {
                 .orElseThrow(() -> new RuntimeException("Insumo no encontrado"));
     }
 
+    public void eliminar(Long id){
+        Ingredient ingredient = buscarPorId(id);
+        ingredientRepository.delete(ingredient);
+    }
+
 
 }

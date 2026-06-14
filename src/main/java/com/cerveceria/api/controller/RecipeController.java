@@ -4,6 +4,7 @@ import com.cerveceria.api.model.Ingredient;
 import com.cerveceria.api.model.Recipe;
 import com.cerveceria.api.service.IngredientService;
 import com.cerveceria.api.service.RecipeService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,6 +38,12 @@ public class RecipeController {
     public Recipe addIngredient(@PathVariable Long recipeId,
                                 @PathVariable Long ingredientId){
         return recipeService.agregarIngredienteAReceta(recipeId, ingredientId);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id){
+        recipeService.eliminar(id);
     }
 
 }
