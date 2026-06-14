@@ -28,7 +28,9 @@ public class RecipeController {
         return recipeService.crear(recipe);
     }
 
-    public Recipe addIngredient(@PathVariable Long recipeId, @PathVariable Long ingredientId){
+    @PostMapping("/{recipeId}/ingredients/{ingredientId}")
+    public Recipe addIngredient(@PathVariable Long recipeId,
+                                @PathVariable Long ingredientId){
         return recipeService.agregarIngredienteAReceta(recipeId, ingredientId);
     }
 
