@@ -1,5 +1,7 @@
 # Brewery Management API
 
+**Version 1.0.0 - Functional MVP**
+
 RESTful API built with Spring Boot for managing brewery recipes and ingredients.
 
 ## Overview
@@ -207,3 +209,18 @@ This project focuses on practicing:
 - Exception handling
 - Backend development using Spring Boot
 - API development best practices
+
+## Release Notes
+
+### v1.0.0
+
+Initial functional release including:
+
+- Ingredient management
+- Recipe management
+- Recipe-Ingredient associations
+- RESTful API endpoints
+- Global exception handling
+- H2 database integration
+- ER diagram documentation
+- Postman API examples
