@@ -1,6 +1,6 @@
-package com.cerveceria.api.repository;
+package com.brewery.api.repository;
 
-import com.cerveceria.api.model.Recipe;
+import com.brewery.api.model.Recipe;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

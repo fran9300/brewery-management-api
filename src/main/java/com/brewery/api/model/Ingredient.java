@@ -1,4 +1,4 @@
-package com.cerveceria.api.model;
+package com.brewery.api.model;
 
 
 import jakarta.persistence.*;

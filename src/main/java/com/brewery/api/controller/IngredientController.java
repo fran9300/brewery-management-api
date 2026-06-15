@@ -1,7 +1,8 @@
-package com.cerveceria.api.controller;
+package com.brewery.api.controller;
 
-import com.cerveceria.api.model.Ingredient;
-import com.cerveceria.api.service.IngredientService;
+import com.brewery.api.model.Ingredient;
+import com.brewery.api.service.IngredientService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +20,12 @@ public class IngredientController {
 
     @GetMapping
     public List<Ingredient> getAll() {
-        return ingredientService.listarTodos();
+        return ingredientService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Ingredient getById(@PathVariable Long id) {
+        return ingredientService.findById(id);
     }
 
     @GetMapping("/{id}")
@@ -29,7 +35,13 @@ public class IngredientController {
 
     @PostMapping
     public Ingredient create(@RequestBody Ingredient ingredient) {
-        return ingredientService.guardar(ingredient);
+        return ingredientService.save(ingredient);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id){
+        ingredientService.eliminar(id);
     }
 
     @PutMapping("/{id}")

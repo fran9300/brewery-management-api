@@ -1,13 +1,13 @@
-package com.cerveceria.api;
+package com.brewery.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class GestionCerveceriaApplication {
+public class BreweryManagmentApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GestionCerveceriaApplication.class, args);
+		SpringApplication.run(BreweryManagmentApplication.class, args);
 	}
 
 }
