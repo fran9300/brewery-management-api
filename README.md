@@ -139,7 +139,9 @@ Future improvements are planned and listed in the roadmap section.
 
 ## Database Model
 
-> ER Diagram coming soon
+![ER Diagram](images/er-diagram.png)
+
+The application uses a Many-to-Many relationship between recipes and ingredients through the `recipe_ingredients` join table.
 
 Relationship:
 
@@ -153,7 +155,21 @@ Ingredient
 
 ## API Demonstration
 
-> Postman screenshots coming soon
+### Create Ingredient
+
+![Create Ingredient](images/create-ingredient.png)
+
+### Create Recipe
+
+![Create Recipe](images/create-recipe.png)
+
+### Associate Ingredient to Recipe
+
+![Associate Ingredient](images/add-ingredient-to-recipe.png)
+
+### Error Handling
+
+![404 Error](images/error-handling.png)
 
 Examples:
 
