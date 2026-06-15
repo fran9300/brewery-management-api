@@ -1,10 +1,10 @@
-package com.cerveceria.api.service;
+package com.brewery.api.service;
 
-import com.cerveceria.api.exception.ResourceNotFoundException;
-import com.cerveceria.api.model.Ingredient;
-import com.cerveceria.api.model.Recipe;
-import com.cerveceria.api.repository.IngredientRepository;
-import com.cerveceria.api.repository.RecipeRepository;
+import com.brewery.api.exception.ResourceNotFoundException;
+import com.brewery.api.model.Ingredient;
+import com.brewery.api.model.Recipe;
+import com.brewery.api.repository.IngredientRepository;
+import com.brewery.api.repository.RecipeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,10 +1,10 @@
-package com.cerveceria.api;
+package com.brewery.api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class GestionCerveceriaApplicationTests {
+class BreweryManagmentApplicationTests {
 
 	@Test
 	void contextLoads() {

@@ -1,4 +1,4 @@
-package com.cerveceria.api.exception;
+package com.brewery.api.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
 

@@ -1,4 +1,4 @@
-package com.cerveceria.api.exception;
+package com.brewery.api.exception;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;

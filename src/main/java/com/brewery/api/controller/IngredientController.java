@@ -1,7 +1,7 @@
-package com.cerveceria.api.controller;
+package com.brewery.api.controller;
 
-import com.cerveceria.api.model.Ingredient;
-import com.cerveceria.api.service.IngredientService;
+import com.brewery.api.model.Ingredient;
+import com.brewery.api.service.IngredientService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
