@@ -1,5 +1,6 @@
 package com.cerveceria.api.exception;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -19,4 +20,15 @@ public class GlobalExceptionHandler {
                 "error", ex.getMessage()
         );
     }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public Map<String, String> handleIntegrityViolation() {
+        return Map.of(
+                "error",
+                "Cannot delete ingredient because it is associated with one or more recipes"
+        );
+    }
+
+
 }
