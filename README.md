@@ -1,6 +1,6 @@
 # Brewery Management API
 
-**Version 1.0.0 - Functional MVP**
+**Version 1.1.0 - Functional MVP**
 
 RESTful API built with Spring Boot for managing brewery recipes and ingredients.
 
