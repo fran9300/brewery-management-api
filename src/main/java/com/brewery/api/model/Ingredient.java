@@ -20,6 +20,7 @@ public class Ingredient {
     private Long id;
 
     @NotBlank(message = "Ingredient name is required")
+    @Column(nullable = false, unique = true)
     private String name;
 
     @NotBlank(message = "Ingredient type is required")
