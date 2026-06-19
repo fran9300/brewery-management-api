@@ -19,14 +19,18 @@ The API allows managing ingredients, recipes, and the relationships between them
 - Create ingredients
 - Retrieve all ingredients
 - Retrieve ingredients by ID
+- Update ingredients
 - Delete ingredients
+- Input validation
 - Automatic name normalization
+- Prevent duplicate ingredient names
 
 ### Recipe Management
 
 - Create recipes
 - Retrieve all recipes
 - Retrieve recipes by ID
+- Update recipes
 - Delete recipes
 - Associate ingredients with recipes
 
@@ -35,8 +39,11 @@ The API allows managing ingredients, recipes, and the relationships between them
 - Layered architecture
 - Global exception handling
 - RESTful endpoint design
-- H2 in-memory database
+- PostgreSQL relational database
 - Spring Data JPA persistence
+- Hibernate ORM
+- Request validation
+- Database constraints
 
 ---
 
@@ -46,9 +53,10 @@ The API allows managing ingredients, recipes, and the relationships between them
 - Spring Boot
 - Spring Data JPA
 - Hibernate
-- H2 Database
+- PostgreSQL
 - Maven
 - Lombok
+- Bean Validation
 
 ---
 
@@ -63,7 +71,7 @@ Service
     ↓
 Repository
     ↓
-H2 Database
+PostgreSQL Database
 ```
 
 ### Project Structure
@@ -87,6 +95,7 @@ exception   -> Custom exceptions and global exception handling
 | GET | /api/ingredients |
 | GET | /api/ingredients/{id} |
 | POST | /api/ingredients |
+| PUT | /api/ingredients/{id} |
 | DELETE | /api/ingredients/{id} |
 
 ### Recipes
@@ -96,6 +105,7 @@ exception   -> Custom exceptions and global exception handling
 | GET | /api/recipes |
 | GET | /api/recipes/{id} |
 | POST | /api/recipes |
+| PUT | /api/recipes/{id} |
 | DELETE | /api/recipes/{id} |
 | POST | /api/recipes/{recipeId}/ingredients/{ingredientId} |
 
@@ -187,14 +197,12 @@ Examples:
 
 Future improvements:
 
-- [ ] Update endpoints (PUT)
-- [ ] PostgreSQL integration
 - [ ] Swagger/OpenAPI documentation
 - [ ] DTO implementation
-- [ ] Request validation
 - [ ] Unit testing
 - [ ] Docker support
 - [ ] Authentication and authorization
+- [ ] Flyway database migrations
 
 ---
 
@@ -212,15 +220,12 @@ This project focuses on practicing:
 
 ## Release Notes
 
-### v1.0.0
+### v1.1.0
 
-Initial functional release including:
+Improvements:
 
-- Ingredient management
-- Recipe management
-- Recipe-Ingredient associations
-- RESTful API endpoints
-- Global exception handling
-- H2 database integration
-- ER diagram documentation
-- Postman API examples
+- Migrated database from H2 to PostgreSQL
+- Added entity validation using Bean Validation
+- Added PUT endpoints for ingredients and recipes
+- Added database constraint to prevent duplicate ingredients
+- Improved persistence configuration

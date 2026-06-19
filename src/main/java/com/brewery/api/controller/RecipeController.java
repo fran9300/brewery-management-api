@@ -2,6 +2,7 @@ package com.brewery.api.controller;
 
 import com.brewery.api.model.Recipe;
 import com.brewery.api.service.RecipeService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/recipes")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*") //permitir peticiones desde cualquier origen (para probar en mi front basico)
 public class RecipeController {
     private final RecipeService recipeService;
 
@@ -28,14 +29,22 @@ public class RecipeController {
     }
 
     @PostMapping
-    public Recipe create(@RequestBody Recipe recipe) {
-        return recipeService.create(recipe);
+    public Recipe create(@Valid @RequestBody Recipe recipe) {
+        return recipeService.save(recipe);
     }
 
     @PostMapping("/{recipeId}/ingredients/{ingredientId}")
     public Recipe addIngredient(@PathVariable Long recipeId,
                                 @PathVariable Long ingredientId){
         return recipeService.addIngredientToRecipe(recipeId, ingredientId);
+    }
+
+    @PutMapping("/{id}")
+    public Recipe update(
+            @PathVariable Long id,
+            @Valid @RequestBody Recipe recipe) {
+
+        return recipeService.update(id, recipe);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
