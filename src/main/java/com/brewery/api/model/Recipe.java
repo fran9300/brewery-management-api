@@ -25,7 +25,7 @@ public class Recipe {
     @NotBlank(message = "Instructions are required")
     private String instructions;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "recipe_ingredients",
             joinColumns = @JoinColumn(name = "recipe_id"),
