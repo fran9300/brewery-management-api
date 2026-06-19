@@ -1,6 +1,7 @@
 package com.brewery.api.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -13,9 +14,15 @@ public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank(message = "Recipe name is required")
     private String name;
+
+    @NotBlank(message = "Style is required")
     private String style;
+
     @Column(length = 1000)
+    @NotBlank(message = "Instructions are required")
     private String instructions;
 
     @ManyToMany
@@ -25,6 +32,5 @@ public class Recipe {
             inverseJoinColumns = @JoinColumn(name = "ingredient_id")
     )
     private List<Ingredient> ingredients = new ArrayList<>();
-
 
 }

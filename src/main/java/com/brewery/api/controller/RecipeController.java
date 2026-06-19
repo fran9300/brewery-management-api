@@ -2,6 +2,7 @@ package com.brewery.api.controller;
 
 import com.brewery.api.model.Recipe;
 import com.brewery.api.service.RecipeService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,7 @@ public class RecipeController {
     }
 
     @PostMapping
-    public Recipe create(@RequestBody Recipe recipe) {
+    public Recipe create(@Valid @RequestBody Recipe recipe) {
         return recipeService.create(recipe);
     }
 
