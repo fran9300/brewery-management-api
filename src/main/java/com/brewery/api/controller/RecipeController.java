@@ -30,13 +30,21 @@ public class RecipeController {
 
     @PostMapping
     public Recipe create(@Valid @RequestBody Recipe recipe) {
-        return recipeService.create(recipe);
+        return recipeService.save(recipe);
     }
 
     @PostMapping("/{recipeId}/ingredients/{ingredientId}")
     public Recipe addIngredient(@PathVariable Long recipeId,
                                 @PathVariable Long ingredientId){
         return recipeService.addIngredientToRecipe(recipeId, ingredientId);
+    }
+
+    @PutMapping("/{id}")
+    public Recipe update(
+            @PathVariable Long id,
+            @Valid @RequestBody Recipe recipe) {
+
+        return recipeService.update(id, recipe);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

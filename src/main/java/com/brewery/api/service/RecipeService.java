@@ -23,7 +23,7 @@ public class RecipeService {
         return recipeRepository.findAll();
     }
 
-    public Recipe create(Recipe recipe){
+    public Recipe save(Recipe recipe){
         return recipeRepository.save(recipe);
     }
 
@@ -40,6 +40,17 @@ public class RecipeService {
         return recipeRepository.findById(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Recipe not found"));
+    }
+
+    public Recipe update(Long id, Recipe updated) {
+
+        Recipe recipe = findById(id);
+
+        recipe.setName(updated.getName());
+        recipe.setStyle(updated.getStyle());
+        recipe.setInstructions(updated.getInstructions());
+
+        return save(recipe);
     }
 
     public void delete(Long id){

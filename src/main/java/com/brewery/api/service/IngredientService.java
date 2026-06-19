@@ -31,7 +31,19 @@ public class IngredientService {
                         new ResourceNotFoundException("Ingredient not found"));
     }
 
-    public void eliminar(Long id){
+    public Ingredient update(Long id, Ingredient updated) {
+
+        Ingredient ingredient = findById(id);
+
+        ingredient.setName(updated.getName());
+        ingredient.setType(updated.getType());
+        ingredient.setQuantity(updated.getQuantity());
+        ingredient.setUnit(updated.getUnit());
+
+        return ingredientRepository.save(ingredient);
+    }
+
+    public void delete(Long id){
         Ingredient ingredient = findById(id);
         ingredientRepository.delete(ingredient);
     }
