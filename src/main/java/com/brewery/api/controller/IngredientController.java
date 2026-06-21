@@ -29,6 +29,11 @@ public class IngredientController {
         return ingredientService.findById(id);
     }
 
+    @GetMapping("/{id}")
+    public Ingredient getById(@PathVariable Long id){
+        return ingredientService.buscarPorId(id);
+    }
+
     @PostMapping
     public Ingredient create(@Valid @RequestBody Ingredient ingredient) {
         return ingredientService.save(ingredient);
@@ -46,5 +51,22 @@ public class IngredientController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id){
         ingredientService.delete(id);
+    }
+
+    @PutMapping("/{id}")
+    public Ingredient update(
+            @PathVariable Long id,
+            @RequestBody Ingredient ingredient){
+
+        return ingredientService.actualizar(
+                id,
+                ingredient
+        );
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id){
+
+        ingredientService.eliminar(id);
     }
 }
