@@ -1,0 +1,241 @@
+{
+  "info": {
+    "name": "Brewery Management API - Postman Collection",
+    "description": "Postman collection for testing the Brewery Management REST API endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "ingredient_id",
+      "value": ""
+    },
+    {
+      "key": "recipe_id",
+      "value": ""
+    }
+  ],
+  "item": [
+
+    {
+      "name": "Ingredients",
+      "item": [
+
+        {
+          "name": "Create Ingredient",
+          "request": {
+            "method": "POST",
+            "description": "Creates a new ingredient. Example: hops, malt, yeast.",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Cascade Hops\",\n    \"type\": \"Hop\",\n    \"quantity\": 500,\n    \"unit\": \"grams\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{base_url}}/api/ingredients"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.collectionVariables.set(\"ingredient_id\", pm.response.json().id);"
+                ]
+              }
+            }
+          ]
+        },
+
+        {
+          "name": "Get All Ingredients",
+          "request": {
+            "method": "GET",
+            "description": "Returns all available ingredients.",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/api/ingredients"
+          }
+        },
+
+        {
+          "name": "Get Ingredient By ID",
+          "request": {
+            "method": "GET",
+            "description": "Returns an ingredient by identifier.",
+            "url": "{{base_url}}/api/ingredients/{{ingredient_id}}"
+          }
+        },
+
+        {
+          "name": "Update Ingredient",
+          "request": {
+            "method": "PUT",
+            "description": "Updates an existing ingredient.",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Mosaic Hops\",\n    \"type\": \"Hop\",\n    \"quantity\": 300,\n    \"unit\": \"grams\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{base_url}}/api/ingredients/{{ingredient_id}}"
+          }
+        }
+
+      ]
+    },
+
+
+    {
+      "name": "Recipes",
+      "item": [
+
+        {
+          "name": "Create Recipe",
+          "request": {
+            "method": "POST",
+            "description": "Creates a new beer recipe.",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"American IPA\",\n    \"style\": \"IPA\",\n    \"instructions\": \"Boil malt for 60 minutes and add hops\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{base_url}}/api/recipes"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.collectionVariables.set(\"recipe_id\", pm.response.json().id);"
+                ]
+              }
+            }
+          ]
+        },
+
+
+        {
+          "name": "Get All Recipes",
+          "request": {
+            "method": "GET",
+            "description": "Returns all recipes.",
+            "url": "{{base_url}}/api/recipes"
+          }
+        },
+
+
+        {
+          "name": "Get Recipe By ID",
+          "request": {
+            "method": "GET",
+            "description": "Returns a recipe by identifier.",
+            "url": "{{base_url}}/api/recipes/{{recipe_id}}"
+          }
+        },
+
+
+        {
+          "name": "Add Ingredient To Recipe",
+          "request": {
+            "method": "POST",
+            "description": "Associates an ingredient with a recipe.",
+            "url": "{{base_url}}/api/recipes/{{recipe_id}}/ingredients/{{ingredient_id}}"
+          }
+        },
+
+
+        {
+          "name": "Update Recipe",
+          "request": {
+            "method": "PUT",
+            "description": "Updates an existing recipe.",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Imperial IPA\",\n    \"style\": \"Double IPA\",\n    \"instructions\": \"Extended boil and dry hopping\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{base_url}}/api/recipes/{{recipe_id}}"
+          }
+        }
+
+      ]
+    },
+
+
+    {
+      "name": "Cleanup",
+      "item": [
+
+        {
+          "name": "Delete Recipe",
+          "request": {
+            "method": "DELETE",
+            "description": "Deletes a recipe. Must be executed before deleting associated ingredients.",
+            "url": "{{base_url}}/api/recipes/{{recipe_id}}"
+          }
+        },
+
+
+        {
+          "name": "Delete Ingredient",
+          "request": {
+            "method": "DELETE",
+            "description": "Deletes an ingredient. Ingredients associated with recipes cannot be deleted.",
+            "url": "{{base_url}}/api/ingredients/{{ingredient_id}}"
+          }
+        }
+
+      ]
+    }
+
+  ]
+}

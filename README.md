@@ -1,14 +1,14 @@
 # Brewery Management API
 
-**Version 1.1.0 - Functional MVP**
+**Version 1.2.0 - Functional MVP**
 
 RESTful API built with Spring Boot for managing brewery recipes and ingredients.
 
 ## Overview
 
-This project demonstrates backend development concepts such as layered architecture, JPA entity relationships, exception handling, and REST API design.
+This project demonstrates backend development concepts such as layered architecture, REST API design, JPA entity relationships, validation, exception handling, and relational database management.
 
-The API allows managing ingredients, recipes, and the relationships between them using a clean and structured Spring Boot architecture.
+The API allows managing ingredients, recipes, and the relationships between them through a structured Spring Boot architecture.
 
 ---
 
@@ -24,6 +24,7 @@ The API allows managing ingredients, recipes, and the relationships between them
 - Input validation
 - Automatic name normalization
 - Prevent duplicate ingredient names
+- Database integrity validation
 
 ### Recipe Management
 
@@ -33,6 +34,7 @@ The API allows managing ingredients, recipes, and the relationships between them
 - Update recipes
 - Delete recipes
 - Associate ingredients with recipes
+- Manage Many-to-Many relationships
 
 ### API Features
 
@@ -44,6 +46,8 @@ The API allows managing ingredients, recipes, and the relationships between them
 - Hibernate ORM
 - Request validation
 - Database constraints
+- Swagger/OpenAPI documentation
+- Postman API testing collection
 
 ---
 
@@ -57,6 +61,8 @@ The API allows managing ingredients, recipes, and the relationships between them
 - Maven
 - Lombok
 - Bean Validation
+- Swagger/OpenAPI
+- Postman
 
 ---
 
@@ -82,6 +88,46 @@ service     -> Business logic
 repository  -> Data access layer
 model       -> JPA entities
 exception   -> Custom exceptions and global exception handling
+```
+---
+
+### API Documentation
+
+The API includes Swagger/OpenAPI documentation.
+
+Once the application is running, access:
+
+```text
+http://localhost:8080/swagger-ui/index.html
+```
+Swagger allows testing and exploring all available endpoints directly from the browser.
+
+---
+
+### API Testing
+
+The repository includes a Postman collection with predefined requests for testing the API.
+
+Included operations:
+
+- Ingredient CRUD operations
+- Recipe CRUD operations
+- Recipe–Ingredient relationship management
+- Validation and error handling scenarios
+
+Import the collection:
+
+```text
+postman/Brewery-Management-API.postman_collection.json
+```
+Run the application:
+```bash
+mvn spring-boot:run
+```
+The API will be available at:
+
+```text
+http://localhost:8080
 ```
 
 ---
@@ -165,31 +211,21 @@ Ingredient
 
 ---
 
-## API Demonstration
+### Project Status
 
-### Create Ingredient
+Functional MVP
 
-![Create Ingredient](images/create-ingredient.png)
+The core API is fully functional and includes:
 
-### Create Recipe
+- Ingredient management
+- Recipe management
+- Entity relationships
+- PostgreSQL persistence
+- Validation
+- Exception handling
+- API documentation
+- API testing collection
 
-![Create Recipe](images/create-recipe.png)
-
-### Associate Ingredient to Recipe
-
-![Associate Ingredient](images/add-ingredient-to-recipe.png)
-
-### Error Handling
-
-![404 Error](images/error-handling.png)
-
-Examples:
-
-- Creating ingredients
-- Creating recipes
-- Associating ingredients with recipes
-- Successful API responses
-- Error handling responses (404 Not Found)
 
 ---
 
@@ -197,12 +233,14 @@ Examples:
 
 Future improvements:
 
-- [ ] Swagger/OpenAPI documentation
 - [ ] DTO implementation
 - [ ] Unit testing
-- [ ] Docker support
+- [ ] Docker and Docker Compose support
 - [ ] Authentication and authorization
 - [ ] Flyway database migrations
+- [ ] CI/CD pipeline with GitHub Actions
+- [ ] SonarQube code quality analysis
+- [ ] Automated code formatting with Maven plugins
 
 ---
 
@@ -211,14 +249,24 @@ Future improvements:
 This project focuses on practicing:
 
 - REST API design
-- Layered architecture
+- Spring Boot architecture
 - Dependency injection
 - Entity relationships with JPA
 - Exception handling
-- Backend development using Spring Boot
+- Database persistence
 - API development best practices
+- Backend development best practices
 
 ## Release Notes
+
+### v1.2.0
+
+Improvements:
+
+- Added Swagger/OpenAPI documentation
+- Added Postman collection for API testing
+- Improved API testing workflow
+- Improved project documentation
 
 ### v1.1.0
 
