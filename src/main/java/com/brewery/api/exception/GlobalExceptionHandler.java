@@ -6,48 +6,67 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.time.LocalDateTime;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Map<String, String> handleNotFound(
-            ResourceNotFoundException ex) {
+    public ErrorResponse handleNotFound(
+            ResourceNotFoundException ex,
+            WebRequest request){
 
-        return Map.of(
-                "error", ex.getMessage()
+        return new ErrorResponse(
+                LocalDateTime.now(),
+                404,
+                "Not Found",
+                ex.getMessage(),
+                request.getDescription(false)
         );
     }
 
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public Map<String, String> handleIntegrityViolation() {
-        return Map.of(
-                "error",
-                "Cannot delete ingredient because it is associated with one or more recipes"
-        );
-    }
+
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, String> handleValidation(
-            MethodArgumentNotValidException ex) {
+    public ErrorResponse handleValidation(
+            MethodArgumentNotValidException ex,
+            WebRequest request){
 
-        Map<String, String> errors = new HashMap<>();
 
-        ex.getBindingResult()
-                .getFieldErrors()
-                .forEach(error ->
-                        errors.put(
-                                error.getField(),
-                                error.getDefaultMessage()));
+        String message =
+                ex.getBindingResult()
+                        .getFieldErrors()
+                        .getFirst()
+                        .getDefaultMessage();
 
-        return errors;
+
+        return new ErrorResponse(
+                LocalDateTime.now(),
+                400,
+                "Bad Request",
+                message,
+                request.getDescription(false)
+        );
     }
 
 
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleDatabase(WebRequest request){
+
+        return new ErrorResponse(
+                LocalDateTime.now(),
+                409,
+                "Conflict",
+                "Database constraint violation",
+                request.getDescription(false)
+
+        );
+    }
 }

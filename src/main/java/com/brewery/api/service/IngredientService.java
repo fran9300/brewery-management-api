@@ -1,5 +1,7 @@
 package com.brewery.api.service;
 
+import com.brewery.api.dto.ingredient.IngredientRequest;
+import com.brewery.api.dto.ingredient.IngredientResponse;
 import com.brewery.api.exception.ResourceNotFoundException;
 import com.brewery.api.model.Ingredient;
 import com.brewery.api.repository.IngredientRepository;
@@ -16,36 +18,82 @@ public class IngredientService {
         this.ingredientRepository = ingredientRepository;
     }
 
-    public List<Ingredient> findAll() {
-        return ingredientRepository.findAll();
+    public List<IngredientResponse> findAll() {
+
+        return ingredientRepository.findAll()
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
     }
 
-    public Ingredient save(Ingredient ingredient) {
-        ingredient.setName(ingredient.getName().toUpperCase());
-        return ingredientRepository.save(ingredient);
+    public IngredientResponse save(IngredientRequest request) {
+
+        Ingredient ingredient = new Ingredient();
+
+        ingredient.setName(request.name().toUpperCase());
+        ingredient.setType(request.type());
+        ingredient.setQuantity(request.quantity());
+        ingredient.setUnit(request.unit());
+
+        Ingredient saved = ingredientRepository.save(ingredient);
+
+
+        return mapToResponse(saved);
     }
 
-    public Ingredient findById(Long id){
+    public IngredientResponse findById(Long id) {
+
+        Ingredient ingredient = findEntityById(id);
+
+        return mapToResponse(ingredient);
+    }
+
+    public IngredientResponse update(Long id, IngredientRequest request) {
+
+        Ingredient ingredient = findEntityById(id);
+
+        ingredient.setName(request.name().toUpperCase());
+        ingredient.setType(request.type());
+        ingredient.setQuantity(request.quantity());
+        ingredient.setUnit(request.unit());
+
+
+        Ingredient updated = ingredientRepository.save(ingredient);
+
+
+        return mapToResponse(updated);
+    }
+
+    public void delete(Long id) {
+
+        Ingredient ingredient = ingredientRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Ingredient not found")
+                );
+
+        ingredientRepository.delete(ingredient);
+
+    }
+
+    private IngredientResponse mapToResponse(Ingredient ingredient) {
+
+
+        return new IngredientResponse(
+                ingredient.getId(),
+                ingredient.getName(),
+                ingredient.getType(),
+                ingredient.getQuantity(),
+                ingredient.getUnit()
+        );
+
+    }
+
+    private Ingredient findEntityById(Long id) {
+
         return ingredientRepository.findById(id)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("Ingredient not found"));
-    }
-
-    public Ingredient update(Long id, Ingredient updated) {
-
-        Ingredient ingredient = findById(id);
-
-        ingredient.setName(updated.getName());
-        ingredient.setType(updated.getType());
-        ingredient.setQuantity(updated.getQuantity());
-        ingredient.setUnit(updated.getUnit());
-
-        return ingredientRepository.save(ingredient);
-    }
-
-    public void delete(Long id){
-        Ingredient ingredient = findById(id);
-        ingredientRepository.delete(ingredient);
+                        new ResourceNotFoundException("Ingredient not found")
+                );
     }
 
 

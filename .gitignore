@@ -53,6 +53,7 @@ pom.xml.*.backup
 
 .env
 *.env
+!.env.example
 
 application-local.properties
 application-local.yml

@@ -1,60 +1,157 @@
 package com.brewery.api.service;
 
+import com.brewery.api.dto.ingredient.IngredientResponse;
+import com.brewery.api.dto.recipe.RecipeRequest;
+import com.brewery.api.dto.recipe.RecipeResponse;
 import com.brewery.api.exception.ResourceNotFoundException;
 import com.brewery.api.model.Ingredient;
 import com.brewery.api.model.Recipe;
 import com.brewery.api.repository.IngredientRepository;
 import com.brewery.api.repository.RecipeRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 public class RecipeService {
+
     private final RecipeRepository recipeRepository;
     private final IngredientRepository ingredientRepository;
 
-    public RecipeService(RecipeRepository recipeRepository, IngredientRepository ingredientRepository){
+
+    public RecipeService(
+            RecipeRepository recipeRepository,
+            IngredientRepository ingredientRepository
+    ) {
         this.recipeRepository = recipeRepository;
         this.ingredientRepository = ingredientRepository;
     }
 
-    public List<Recipe> findAll(){
-        return recipeRepository.findAll();
+
+    public List<RecipeResponse> findAll(){
+
+        return recipeRepository.findAll()
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
     }
 
-    public Recipe save(Recipe recipe){
-        return recipeRepository.save(recipe);
+
+    public RecipeResponse save(RecipeRequest request){
+
+        Recipe recipe = new Recipe();
+
+        recipe.setName(request.name());
+        recipe.setStyle(request.style());
+        recipe.setInstructions(request.instructions());
+
+
+        return mapToResponse(
+                recipeRepository.save(recipe)
+        );
     }
 
-    public Recipe addIngredientToRecipe(Long recipeId, Long ingredienteId){
-        Recipe recipe = recipeRepository.findById(recipeId).orElseThrow(() ->
-                                                                    new ResourceNotFoundException("Recipe not found"));
-        Ingredient ingredient = ingredientRepository.findById(ingredienteId).orElseThrow(() ->
-                                                                                    new ResourceNotFoundException("Ingredient not found"));
-        recipe.getIngredients().add(ingredient);
-        return recipeRepository.save(recipe);
-    }
+    @Transactional
+    public RecipeResponse addIngredientToRecipe(
+            Long recipeId,
+            Long ingredientId
+    ){
 
-    public Recipe findById(Long id){
-        return recipeRepository.findById(id)
+        Recipe recipe = findEntityById(recipeId);
+
+
+        Ingredient ingredient = ingredientRepository.findById(ingredientId)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("Recipe not found"));
+                        new ResourceNotFoundException("Ingredient not found")
+                );
+
+
+        recipe.getIngredients().add(ingredient);
+
+
+        return mapToResponse(
+                recipeRepository.save(recipe)
+        );
     }
 
-    public Recipe update(Long id, Recipe updated) {
 
-        Recipe recipe = findById(id);
+    public RecipeResponse findById(Long id){
 
-        recipe.setName(updated.getName());
-        recipe.setStyle(updated.getStyle());
-        recipe.setInstructions(updated.getInstructions());
-
-        return save(recipe);
+        return mapToResponse(
+                findEntityById(id)
+        );
     }
+
+
+    public RecipeResponse update(
+            Long id,
+            RecipeRequest request
+    ){
+
+        Recipe recipe = findEntityById(id);
+
+
+        recipe.setName(request.name());
+        recipe.setStyle(request.style());
+        recipe.setInstructions(request.instructions());
+
+
+        return mapToResponse(
+                recipeRepository.save(recipe)
+        );
+    }
+
 
     public void delete(Long id){
-        Recipe recipe = findById(id);
+
+        Recipe recipe = findEntityById(id);
+
         recipeRepository.delete(recipe);
+    }
+
+
+
+    private RecipeResponse mapToResponse(Recipe recipe){
+
+        List<IngredientResponse> ingredients =
+                recipe.getIngredients()
+                        .stream()
+                        .map(this::mapIngredientToResponse)
+                        .toList();
+
+
+        return new RecipeResponse(
+                recipe.getId(),
+                recipe.getName(),
+                recipe.getStyle(),
+                recipe.getInstructions(),
+                ingredients
+        );
+    }
+
+
+
+    private IngredientResponse mapIngredientToResponse(
+            Ingredient ingredient
+    ){
+
+        return new IngredientResponse(
+                ingredient.getId(),
+                ingredient.getName(),
+                ingredient.getType(),
+                ingredient.getQuantity(),
+                ingredient.getUnit()
+        );
+    }
+
+
+
+    private Recipe findEntityById(Long id){
+
+        return recipeRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Recipe not found")
+                );
     }
 }

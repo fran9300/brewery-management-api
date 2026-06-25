@@ -1,6 +1,7 @@
 package com.brewery.api.controller;
 
-import com.brewery.api.model.Ingredient;
+import com.brewery.api.dto.ingredient.IngredientRequest;
+import com.brewery.api.dto.ingredient.IngredientResponse;
 import com.brewery.api.service.IngredientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -13,7 +14,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/ingredients")
-@CrossOrigin(origins = "*")
 @Tag(
         name = "Ingredients",
         description = "Operations related to brewery ingredients"
@@ -34,7 +34,7 @@ public class IngredientController {
             description = "Returns all available ingredients"
     )
     @GetMapping
-    public List<Ingredient> getAll() {
+    public List<IngredientResponse> getAll() {
 
         return ingredientService.findAll();
     }
@@ -44,8 +44,7 @@ public class IngredientController {
             summary = "Get ingredient by ID"
     )
     @GetMapping("/{id}")
-    public Ingredient getById(@PathVariable Long id) {
-
+    public IngredientResponse getById(@PathVariable Long id) {
         return ingredientService.findById(id);
     }
 
@@ -54,10 +53,10 @@ public class IngredientController {
             summary = "Create a new ingredient"
     )
     @PostMapping
-    public Ingredient create(
-            @Valid @RequestBody Ingredient ingredient) {
+    public IngredientResponse create(
+            @Valid @RequestBody IngredientRequest request) {
 
-        return ingredientService.save(ingredient);
+        return ingredientService.save(request);
     }
 
 
@@ -65,11 +64,11 @@ public class IngredientController {
             summary = "Update an ingredient"
     )
     @PutMapping("/{id}")
-    public Ingredient update(
+    public IngredientResponse update(
             @PathVariable Long id,
-            @Valid @RequestBody Ingredient ingredient) {
+            @Valid @RequestBody IngredientRequest request) {
 
-        return ingredientService.update(id, ingredient);
+        return ingredientService.update(id, request);
     }
 
 
@@ -79,7 +78,6 @@ public class IngredientController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-
         ingredientService.delete(id);
     }
 
