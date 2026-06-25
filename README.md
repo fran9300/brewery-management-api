@@ -1,6 +1,6 @@
 # Brewery Management API
 
-**Version 1.3.0 - Functional MVP**
+**Version 1.4.0 - Functional MVP**
 
 RESTful API built with Spring Boot for managing brewery recipes and ingredients.
 
@@ -57,6 +57,7 @@ The API allows managing ingredients, recipes, and the relationships between them
 - Swagger/OpenAPI documentation
 - Postman API testing collection
 - Docker Compose database environment
+- Flyway database migrations
 
 ---
 
@@ -74,6 +75,7 @@ The API allows managing ingredients, recipes, and the relationships between them
 - Swagger/OpenAPI
 - Postman
 - Docker
+- Flyway
 
 ---
 
@@ -110,6 +112,22 @@ The project uses PostgreSQL running through Docker Compose.
 
 Database configuration is managed through environment variables.
 
+Database schema changes are managed using Flyway migrations.
+
+Flyway automatically executes versioned SQL migration scripts when the application starts, keeping the database schema synchronized across different environments.
+
+Migration files are located at:
+
+```text
+src/main/resources/db/migration
+```
+Example migration:
+
+```text
+V1__create_initial_schema.sql
+```
+Each migration represents a versioned database change and is executed only once.
+
 Create a `.env` file:
 
 ```env
@@ -140,15 +158,15 @@ docker ps
 
 Clone the repository:
 
-```bash
-git clone https://github.com/fran9300/brewery-management-api.git
-```
+The repository includes a Postman collection with predefined requests.
 
 Navigate to the project:
 
-```bash
-cd brewery-management-api
-```
+- Ingredient CRUD operations
+- Recipe CRUD operations
+- Recipe-Ingredient relationship management
+- Validation scenarios
+- Error handling responses
 
 Start the application using Maven Wrapper:
 
@@ -277,7 +295,6 @@ Future improvements:
 
 - [ ] Unit testing
 - [ ] Authentication and authorization
-- [ ] Flyway database migrations
 - [ ] CI/CD pipeline with GitHub Actions
 - [ ] SonarQube quality analysis
 - [ ] Automated code formatting
@@ -300,6 +317,10 @@ This project focuses on practicing:
 ---
 
 # Release Notes
+
+## v1.4.0
+- Added Flyway database migrations
+- Added version-controlled database schema management
 
 ## v1.3.0
 

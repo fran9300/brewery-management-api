@@ -23,12 +23,14 @@ public class Ingredient {
     private String name;
 
     @NotBlank(message = "Ingredient type is required")
+    @Column(nullable = false)
     private String type;
 
     @Positive(message = "Quantity must be greater than zero")
     private Double quantity;
 
     @NotBlank(message = "Unit is required")
+    @Column(nullable = false)
     private String unit;
 
 }
