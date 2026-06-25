@@ -1,20 +1,22 @@
 # Brewery Management API
 
-**Version 1.2.0 - Functional MVP**
+**Version 1.3.0 - Functional MVP**
 
 RESTful API built with Spring Boot for managing brewery recipes and ingredients.
 
+---
+
 ## Overview
 
-This project demonstrates backend development concepts such as layered architecture, REST API design, JPA entity relationships, validation, exception handling, and relational database management.
+This project demonstrates backend development concepts such as layered architecture, REST API design, DTO pattern, JPA entity relationships, validation, exception handling, and relational database management.
 
 The API allows managing ingredients, recipes, and the relationships between them through a structured Spring Boot architecture.
 
 ---
 
-## Features
+# Features
 
-### Ingredient Management
+## Ingredient Management
 
 - Create ingredients
 - Retrieve all ingredients
@@ -22,11 +24,14 @@ The API allows managing ingredients, recipes, and the relationships between them
 - Update ingredients
 - Delete ingredients
 - Input validation
+- DTO-based request and response handling
 - Automatic name normalization
 - Prevent duplicate ingredient names
 - Database integrity validation
 
-### Recipe Management
+---
+
+## Recipe Management
 
 - Create recipes
 - Retrieve all recipes
@@ -34,24 +39,28 @@ The API allows managing ingredients, recipes, and the relationships between them
 - Update recipes
 - Delete recipes
 - Associate ingredients with recipes
-- Manage Many-to-Many relationships
+- Manage Many-to-Many relationships using JPA
 
-### API Features
+---
+
+## API Features
 
 - Layered architecture
+- DTO pattern implementation
 - Global exception handling
 - RESTful endpoint design
 - PostgreSQL relational database
 - Spring Data JPA persistence
 - Hibernate ORM
-- Request validation
+- Bean Validation
 - Database constraints
 - Swagger/OpenAPI documentation
 - Postman API testing collection
+- Docker Compose database environment
 
 ---
 
-## Tech Stack
+# Tech Stack
 
 - Java 21
 - Spring Boot
@@ -59,18 +68,20 @@ The API allows managing ingredients, recipes, and the relationships between them
 - Hibernate
 - PostgreSQL
 - Maven
+- Maven Wrapper
 - Lombok
 - Bean Validation
 - Swagger/OpenAPI
 - Postman
+- Docker
 
 ---
 
-## Architecture
+# Architecture
 
 The application follows a layered architecture:
 
-```text
+```
 Controller
     ↓
 Service
@@ -80,84 +91,52 @@ Repository
 PostgreSQL Database
 ```
 
-### Project Structure
+## Project Structure
 
-```text
+```
 controller  -> REST endpoints
 service     -> Business logic
 repository  -> Data access layer
+dto         -> Request and Response objects
 model       -> JPA entities
-exception   -> Custom exceptions and global exception handling
+exception   -> Custom exceptions and global error handling
 ```
----
-
-### API Documentation
-
-The API includes Swagger/OpenAPI documentation.
-
-Once the application is running, access:
-
-```text
-http://localhost:8080/swagger-ui/index.html
-```
-Swagger allows testing and exploring all available endpoints directly from the browser.
 
 ---
 
-### API Testing
+# Database
 
-The repository includes a Postman collection with predefined requests for testing the API.
+The project uses PostgreSQL running through Docker Compose.
 
-Included operations:
+Database configuration is managed through environment variables.
 
-- Ingredient CRUD operations
-- Recipe CRUD operations
-- Recipe–Ingredient relationship management
-- Validation and error handling scenarios
+Create a `.env` file:
 
-Import the collection:
+```env
+POSTGRES_DB=brewery_db
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=your_password
 
-```text
-postman/Brewery-Management-API.postman_collection.json
+DB_URL=jdbc:postgresql://localhost:5432/brewery_db
+DB_USERNAME=postgres
+DB_PASSWORD=your_password
 ```
-Run the application:
+
+Start PostgreSQL:
+
 ```bash
-mvn spring-boot:run
+docker compose up -d
 ```
-The API will be available at:
 
-```text
-http://localhost:8080
+Check container status:
+
+```bash
+docker ps
 ```
 
 ---
 
-## API Endpoints
-
-### Ingredients
-
-| Method | Endpoint |
-|----------|----------|
-| GET | /api/ingredients |
-| GET | /api/ingredients/{id} |
-| POST | /api/ingredients |
-| PUT | /api/ingredients/{id} |
-| DELETE | /api/ingredients/{id} |
-
-### Recipes
-
-| Method | Endpoint |
-|----------|----------|
-| GET | /api/recipes |
-| GET | /api/recipes/{id} |
-| POST | /api/recipes |
-| PUT | /api/recipes/{id} |
-| DELETE | /api/recipes/{id} |
-| POST | /api/recipes/{recipeId}/ingredients/{ingredientId} |
-
----
-
-## Running Locally
+# Running Locally
 
 Clone the repository:
 
@@ -165,45 +144,108 @@ Clone the repository:
 git clone https://github.com/fran9300/brewery-management-api.git
 ```
 
-Navigate to the project folder:
+Navigate to the project:
 
 ```bash
 cd brewery-management-api
 ```
 
-Run the application:
+Start the application using Maven Wrapper:
+
+### Windows
 
 ```bash
-mvn spring-boot:run
+.\mvnw spring-boot:run
+```
+
+### Linux / Mac
+
+```bash
+./mvnw spring-boot:run
 ```
 
 The API will be available at:
 
-```text
+```
 http://localhost:8080
 ```
 
 ---
 
-## Project Status
+# API Documentation
 
-Functional MVP
+Swagger/OpenAPI documentation is available at:
 
-The core API is fully functional and supports ingredient and recipe management, including entity relationships and exception handling.
+```
+http://localhost:8080/swagger-ui/index.html
+```
 
-Future improvements are planned and listed in the roadmap section.
+Swagger allows exploring and testing all available endpoints directly from the browser.
 
 ---
 
-## Database Model
+# API Testing
+
+The repository includes a Postman collection with predefined requests.
+
+Included scenarios:
+
+- Ingredient CRUD operations
+- Recipe CRUD operations
+- Recipe-Ingredient relationship management
+- Validation scenarios
+- Error handling responses
+
+Collection:
+
+```
+postman/Brewery-Management-API.postman_collection.json
+```
+
+---
+
+# API Endpoints
+
+## Ingredients
+
+| Method | Endpoint |
+|--------|----------|
+| GET | `/api/ingredients` |
+| GET | `/api/ingredients/{id}` |
+| POST | `/api/ingredients` |
+| PUT | `/api/ingredients/{id}` |
+| DELETE | `/api/ingredients/{id}` |
+
+---
+
+## Recipes
+
+| Method | Endpoint |
+|--------|----------|
+| GET | `/api/recipes` |
+| GET | `/api/recipes/{id}` |
+| POST | `/api/recipes` |
+| PUT | `/api/recipes/{id}` |
+| DELETE | `/api/recipes/{id}` |
+| POST | `/api/recipes/{recipeId}/ingredients/{ingredientId}` |
+
+---
+
+# Database Model
 
 ![ER Diagram](images/er-diagram.png)
 
-The application uses a Many-to-Many relationship between recipes and ingredients through the `recipe_ingredients` join table.
+The application uses a Many-to-Many relationship between recipes and ingredients.
+
+Implemented through the join table:
+
+```
+recipe_ingredients
+```
 
 Relationship:
 
-```text
+```
 Recipe
     ↔ Many-to-Many ↔
 Ingredient
@@ -211,69 +253,82 @@ Ingredient
 
 ---
 
-### Project Status
+# Project Status
 
 Functional MVP
 
-The core API is fully functional and includes:
+The API currently includes:
 
 - Ingredient management
 - Recipe management
-- Entity relationships
+- DTO architecture
 - PostgreSQL persistence
+- Docker database environment
 - Validation
 - Exception handling
-- API documentation
-- API testing collection
-
+- Swagger documentation
+- Postman testing collection
 
 ---
 
-## Roadmap
+# Roadmap
 
 Future improvements:
 
-- [ ] DTO implementation
 - [ ] Unit testing
-- [ ] Docker and Docker Compose support
 - [ ] Authentication and authorization
 - [ ] Flyway database migrations
 - [ ] CI/CD pipeline with GitHub Actions
-- [ ] SonarQube code quality analysis
-- [ ] Automated code formatting with Maven plugins
+- [ ] SonarQube quality analysis
+- [ ] Automated code formatting
 
 ---
 
-## Learning Goals
+# Learning Goals
 
 This project focuses on practicing:
 
 - REST API design
 - Spring Boot architecture
 - Dependency injection
+- DTO pattern
 - Entity relationships with JPA
 - Exception handling
 - Database persistence
-- API development best practices
 - Backend development best practices
 
-## Release Notes
+---
 
-### v1.2.0
+# Release Notes
+
+## v1.3.0
+
+Improvements:
+
+- Added DTO request/response architecture
+- Added global error response handling
+- Improved exception management
+- Migrated database environment to Docker Compose
+- Improved JPA relationship handling
+- Improved project structure
+
+
+## v1.2.0
 
 Improvements:
 
 - Added Swagger/OpenAPI documentation
-- Added Postman collection for API testing
+- Added Postman collection
 - Improved API testing workflow
 - Improved project documentation
 
-### v1.1.0
+
+## v1.1.0
 
 Improvements:
 
 - Migrated database from H2 to PostgreSQL
-- Added entity validation using Bean Validation
-- Added PUT endpoints for ingredients and recipes
-- Added database constraint to prevent duplicate ingredients
+- Added Bean Validation
+- Added PUT endpoints
+- Added database constraints
 - Improved persistence configuration
