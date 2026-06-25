@@ -4,13 +4,12 @@ package com.brewery.api.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
-@Table(name = "Ingredients")
-@Data
+@Table(name = "ingredients")
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Ingredient {
