@@ -2,7 +2,6 @@ package com.brewery.api.controller;
 
 import com.brewery.api.dto.recipe.RecipeRequest;
 import com.brewery.api.dto.recipe.RecipeResponse;
-import com.brewery.api.model.Recipe;
 import com.brewery.api.service.RecipeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -15,7 +14,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/recipes")
-@CrossOrigin(origins = "*")
 @Tag(
         name = "Recipes",
         description = "Operations related to brewery recipes"

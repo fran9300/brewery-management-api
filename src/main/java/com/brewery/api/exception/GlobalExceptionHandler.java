@@ -6,6 +6,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 
 import java.time.LocalDateTime;
 
@@ -16,13 +17,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleNotFound(
-            ResourceNotFoundException ex){
+            ResourceNotFoundException ex,
+            WebRequest request){
 
         return new ErrorResponse(
                 LocalDateTime.now(),
                 404,
                 "Not Found",
-                ex.getMessage()
+                ex.getMessage(),
+                request.getDescription(false)
         );
     }
 
@@ -31,7 +34,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleValidation(
-            MethodArgumentNotValidException ex){
+            MethodArgumentNotValidException ex,
+            WebRequest request){
 
 
         String message =
@@ -45,7 +49,8 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now(),
                 400,
                 "Bad Request",
-                message
+                message,
+                request.getDescription(false)
         );
     }
 
@@ -53,13 +58,15 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ErrorResponse handleDatabase(){
+    public ErrorResponse handleDatabase(WebRequest request){
 
         return new ErrorResponse(
                 LocalDateTime.now(),
                 409,
                 "Conflict",
-                "Database constraint violation"
+                "Database constraint violation",
+                request.getDescription(false)
+
         );
     }
 }
