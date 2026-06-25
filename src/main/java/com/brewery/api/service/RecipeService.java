@@ -9,6 +9,7 @@ import com.brewery.api.model.Recipe;
 import com.brewery.api.repository.IngredientRepository;
 import com.brewery.api.repository.RecipeRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class RecipeService {
         );
     }
 
-
+    @Transactional
     public RecipeResponse addIngredientToRecipe(
             Long recipeId,
             Long ingredientId
