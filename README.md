@@ -158,15 +158,15 @@ docker ps
 
 Clone the repository:
 
-```bash
-git clone https://github.com/fran9300/brewery-management-api.git
-```
+The repository includes a Postman collection with predefined requests.
 
 Navigate to the project:
 
-```bash
-cd brewery-management-api
-```
+- Ingredient CRUD operations
+- Recipe CRUD operations
+- Recipe-Ingredient relationship management
+- Validation scenarios
+- Error handling responses
 
 Start the application using Maven Wrapper:
 
