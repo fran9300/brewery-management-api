@@ -1,5 +1,7 @@
 package com.brewery.api.controller;
 
+import com.brewery.api.dto.recipe.RecipeRequest;
+import com.brewery.api.dto.recipe.RecipeResponse;
 import com.brewery.api.model.Recipe;
 import com.brewery.api.service.RecipeService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,7 +36,7 @@ public class RecipeController {
             summary = "Get all recipes"
     )
     @GetMapping
-    public List<Recipe> getAll() {
+    public List<RecipeResponse> getAll() {
 
         return recipeService.findAll();
     }
@@ -44,7 +46,7 @@ public class RecipeController {
             summary = "Get recipe by ID"
     )
     @GetMapping("/{id}")
-    public Recipe getById(@PathVariable Long id){
+    public RecipeResponse getById(@PathVariable Long id){
 
         return recipeService.findById(id);
     }
@@ -54,10 +56,10 @@ public class RecipeController {
             summary = "Create a recipe"
     )
     @PostMapping
-    public Recipe create(
-            @Valid @RequestBody Recipe recipe) {
+    public RecipeResponse create(
+            @Valid @RequestBody RecipeRequest request) {
 
-        return recipeService.save(recipe);
+        return recipeService.save(request);
     }
 
 
@@ -65,7 +67,7 @@ public class RecipeController {
             summary = "Add ingredient to recipe"
     )
     @PostMapping("/{recipeId}/ingredients/{ingredientId}")
-    public Recipe addIngredient(
+    public RecipeResponse  addIngredient(
             @PathVariable Long recipeId,
             @PathVariable Long ingredientId){
 
@@ -77,11 +79,11 @@ public class RecipeController {
             summary = "Update a recipe"
     )
     @PutMapping("/{id}")
-    public Recipe update(
+    public RecipeResponse update(
             @PathVariable Long id,
-            @Valid @RequestBody Recipe recipe) {
+            @Valid @RequestBody RecipeRequest request) {
 
-        return recipeService.update(id, recipe);
+        return recipeService.update(id, request);
     }
 
 

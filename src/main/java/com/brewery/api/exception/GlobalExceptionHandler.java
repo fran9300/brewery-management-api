@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
         String message =
                 ex.getBindingResult()
                         .getFieldErrors()
-                        .get(0)
+                        .getFirst()
                         .getDefaultMessage();
 
 

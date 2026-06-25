@@ -1,7 +1,7 @@
 package com.brewery.api.service;
 
-import com.brewery.api.dto.IngredientRequest;
-import com.brewery.api.dto.IngredientResponse;
+import com.brewery.api.dto.ingredient.IngredientRequest;
+import com.brewery.api.dto.ingredient.IngredientResponse;
 import com.brewery.api.exception.ResourceNotFoundException;
 import com.brewery.api.model.Ingredient;
 import com.brewery.api.repository.IngredientRepository;
@@ -43,22 +43,14 @@ public class IngredientService {
 
     public IngredientResponse findById(Long id) {
 
-        Ingredient ingredient = ingredientRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Ingredient not found")
-                );
-
+        Ingredient ingredient = findEntityById(id);
 
         return mapToResponse(ingredient);
     }
 
     public IngredientResponse update(Long id, IngredientRequest request) {
 
-        Ingredient ingredient = ingredientRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Ingredient not found")
-                );
-
+        Ingredient ingredient = findEntityById(id);
 
         ingredient.setName(request.name().toUpperCase());
         ingredient.setType(request.type());
@@ -94,6 +86,14 @@ public class IngredientService {
                 ingredient.getUnit()
         );
 
+    }
+
+    private Ingredient findEntityById(Long id) {
+
+        return ingredientRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Ingredient not found")
+                );
     }
 
 

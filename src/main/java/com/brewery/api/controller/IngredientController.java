@@ -1,8 +1,7 @@
 package com.brewery.api.controller;
 
-import com.brewery.api.dto.IngredientRequest;
-import com.brewery.api.dto.IngredientResponse;
-import com.brewery.api.model.Ingredient;
+import com.brewery.api.dto.ingredient.IngredientRequest;
+import com.brewery.api.dto.ingredient.IngredientResponse;
 import com.brewery.api.service.IngredientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

@@ -1,4 +1,4 @@
-package com.brewery.api.dto;
+package com.brewery.api.dto.ingredient;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
