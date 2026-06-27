@@ -31,7 +31,7 @@ public class RecipeService {
 
     public List<RecipeResponse> findAll(){
 
-        return recipeRepository.findAll()
+        return recipeRepository.findAllWithIngredients()
                 .stream()
                 .map(this::mapToResponse)
                 .toList();
@@ -83,7 +83,7 @@ public class RecipeService {
         );
     }
 
-
+    @Transactional
     public RecipeResponse update(
             Long id,
             RecipeRequest request
@@ -149,7 +149,7 @@ public class RecipeService {
 
     private Recipe findEntityById(Long id){
 
-        return recipeRepository.findById(id)
+        return recipeRepository.findByIdWithIngredients(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Recipe not found")
                 );

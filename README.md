@@ -1,7 +1,5 @@
 # Brewery Management API
 
-**Version 1.4.0 - Functional MVP**
-
 RESTful API built with Spring Boot for managing brewery recipes and ingredients.
 
 ---
@@ -14,9 +12,34 @@ The API allows managing ingredients, recipes, and the relationships between them
 
 ---
 
-# Features
+## Contents
 
-## Ingredient Management
+- [Features](#features)
+  - [Ingredient Management](#ingredient-management)
+  - [Recipe Management](#recipe-management)
+- [Tech Stack](#tech-stack)
+- [Architecture](#architecture)
+  - [Project Structure](#project-structure)
+- [Database](#database)
+- [Running Locally](#running-locally)
+- [API Documentation](#api-documentation)
+- [API Testing](#api-testing)
+- [Testing](#testing)
+- [API Endpoints](#api-endpoints)
+  - [Ingredients](#ingredients)
+  - [Recipes](#recipes)
+- [Database Model](#database-model)
+  - [Persistence Model](#persistence-model)
+- [Error Handling](#error-handling)
+- [Project Status](#project-status)
+- [Roadmap](#roadmap)
+- [Learning Goals](#learning-goals)
+
+---
+
+## Features
+
+### Ingredient Management
 
 - Create ingredients
 - Retrieve all ingredients
@@ -55,19 +78,20 @@ The API allows managing ingredients, recipes, and the relationships between them
 - Bean Validation
 - Database constraints
 - Swagger/OpenAPI documentation
-- Postman API testing collection
 - Docker Compose database environment
 - Flyway database migrations
+- Environment-based configuration
+- Externalized database credentials
 
 ---
 
-# Tech Stack
+## Tech Stack
 
 - Java 21
-- Spring Boot
+- Spring Boot 4
 - Spring Data JPA
-- Hibernate
-- PostgreSQL
+- Hibernate ORM
+- PostgreSQL 16
 - Maven
 - Maven Wrapper
 - Lombok
@@ -76,21 +100,37 @@ The API allows managing ingredients, recipes, and the relationships between them
 - Postman
 - Docker
 - Flyway
+- JUnit 5
+- Mockito
+- Spring Boot Test
+- MockMvc
 
 ---
 
-# Architecture
+## Architecture
 
 The application follows a layered architecture:
 
 ```
+HTTP Request/Response
+    |
+    v
 Controller
-    ↓
+    |
+    v
+DTO (Request/Response)
+    |
+    v
 Service
-    ↓
+    |
+    v
+Entity / Model
+    |
+    v
 Repository
-    ↓
-PostgreSQL Database
+    |
+    v
+Database
 ```
 
 ## Project Structure
@@ -102,11 +142,14 @@ repository  -> Data access layer
 dto         -> Request and Response objects
 model       -> JPA entities
 exception   -> Custom exceptions and global error handling
+config      -> Application configuration classes (OpenAPI/Swagger)
+resources   -> application properties, Flyway migrations and static resources
+
 ```
 
 ---
 
-# Database
+## Database
 
 The project uses PostgreSQL running through Docker Compose.
 
@@ -154,19 +197,14 @@ docker ps
 
 ---
 
-# Running Locally
+## Running Locally
 
-Clone the repository:
+Clone the repository and navigate to the project:
 
-The repository includes a Postman collection with predefined requests.
-
-Navigate to the project:
-
-- Ingredient CRUD operations
-- Recipe CRUD operations
-- Recipe-Ingredient relationship management
-- Validation scenarios
-- Error handling responses
+```bash
+git clone <repository-url>
+cd brewery-management-api
+```
 
 Start the application using Maven Wrapper:
 
@@ -190,7 +228,7 @@ http://localhost:8080
 
 ---
 
-# API Documentation
+## API Documentation
 
 Swagger/OpenAPI documentation is available at:
 
@@ -202,7 +240,7 @@ Swagger allows exploring and testing all available endpoints directly from the b
 
 ---
 
-# API Testing
+## API Testing
 
 The repository includes a Postman collection with predefined requests.
 
@@ -222,7 +260,31 @@ postman/Brewery-Management-API.postman_collection.json
 
 ---
 
-# API Endpoints
+## Testing
+
+The project includes automated tests covering:
+
+- Service layer business logic
+- Controller endpoint behavior
+- Validation scenarios
+- Database constraint error handling
+
+Testing tools:
+
+- JUnit 5
+- Mockito
+- Spring Boot Test
+- MockMvc
+
+Run tests:
+
+```bash
+.\mvnw clean test
+```
+
+---
+
+## API Endpoints
 
 ## Ingredients
 
@@ -268,12 +330,34 @@ Recipe
     ↔ Many-to-Many ↔
 Ingredient
 ```
+---
+
+## Persistence Model
+
+The project uses JPA/Hibernate for ORM mapping.
+
+Implemented relationships:
+
+- Recipe ↔ Ingredient
+  - Many-to-Many relationship
+  - Managed through recipe_ingredients join table
+  - Foreign key constraints handled by PostgreSQL
 
 ---
 
-# Project Status
+## Error Handling
 
-Functional MVP
+The API uses centralized exception handling with custom responses.
+
+Handled scenarios:
+
+- Resource not found (404)
+- Validation errors (400)
+- Database constraint violations (409)
+
+---
+
+## Project Status
 
 The API currently includes:
 
@@ -286,22 +370,25 @@ The API currently includes:
 - Exception handling
 - Swagger documentation
 - Postman testing collection
+- Automated tests with JUnit and Mockito
 
 ---
 
-# Roadmap
+## Roadmap
 
 Future improvements:
 
-- [ ] Unit testing
 - [ ] Authentication and authorization
 - [ ] CI/CD pipeline with GitHub Actions
 - [ ] SonarQube quality analysis
 - [ ] Automated code formatting
+- [ ] Integration testing with Testcontainers
+- [ ] Dockerize application service
+- [ ] Logging and monitoring improvements
 
 ---
 
-# Learning Goals
+## Learning Goals
 
 This project focuses on practicing:
 
@@ -314,42 +401,5 @@ This project focuses on practicing:
 - Database persistence
 - Backend development best practices
 
----
-
-# Release Notes
-
-## v1.4.0
-- Added Flyway database migrations
-- Added version-controlled database schema management
-
-## v1.3.0
-
-Improvements:
-
-- Added DTO request/response architecture
-- Added global error response handling
-- Improved exception management
-- Migrated database environment to Docker Compose
-- Improved JPA relationship handling
-- Improved project structure
 
 
-## v1.2.0
-
-Improvements:
-
-- Added Swagger/OpenAPI documentation
-- Added Postman collection
-- Improved API testing workflow
-- Improved project documentation
-
-
-## v1.1.0
-
-Improvements:
-
-- Migrated database from H2 to PostgreSQL
-- Added Bean Validation
-- Added PUT endpoints
-- Added database constraints
-- Improved persistence configuration

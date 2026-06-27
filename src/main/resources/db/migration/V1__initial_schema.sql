@@ -8,7 +8,9 @@ CREATE TABLE ingredients (
 
                              quantity DOUBLE PRECISION,
 
-                             unit VARCHAR(50) NOT NULL
+                             unit VARCHAR(50) NOT NULL,
+
+                             CONSTRAINT uq_ingredients_name UNIQUE(name)
 );
 
 
@@ -16,11 +18,13 @@ CREATE TABLE recipes (
 
                          id BIGSERIAL PRIMARY KEY,
 
-                         name VARCHAR(255) NOT NULL,
+                         name VARCHAR(255) NOT NULL UNIQUE,
 
                          style VARCHAR(255) NOT NULL,
 
-                         instructions VARCHAR(1000) NOT NULL
+                         instructions VARCHAR(1000) NOT NULL,
+
+                         CONSTRAINT uq_recipes_name UNIQUE(name)
 );
 
 
@@ -40,5 +44,5 @@ CREATE TABLE recipe_ingredients (
                                     CONSTRAINT fk_ingredient
                                         FOREIGN KEY(ingredient_id)
                                             REFERENCES ingredients(id)
-                                            ON DELETE CASCADE
+                                            ON DELETE RESTRICT
 );
