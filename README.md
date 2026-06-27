@@ -14,9 +14,11 @@ The API allows managing ingredients, recipes, and the relationships between them
 
 ## Contents
 
+- [Overview](#overview)
 - [Features](#features)
   - [Ingredient Management](#ingredient-management)
   - [Recipe Management](#recipe-management)
+- [API Features](#api-features)
 - [Tech Stack](#tech-stack)
 - [Architecture](#architecture)
   - [Project Structure](#project-structure)
@@ -286,7 +288,7 @@ Run tests:
 
 ## API Endpoints
 
-## Ingredients
+### Ingredients
 
 | Method | Endpoint |
 |--------|----------|
@@ -298,7 +300,7 @@ Run tests:
 
 ---
 
-## Recipes
+### Recipes
 
 | Method | Endpoint |
 |--------|----------|
@@ -311,7 +313,7 @@ Run tests:
 
 ---
 
-# Database Model
+## Database Model
 
 ![ER Diagram](images/er-diagram.png)
 
@@ -332,7 +334,7 @@ Ingredient
 ```
 ---
 
-## Persistence Model
+### Persistence Model
 
 The project uses JPA/Hibernate for ORM mapping.
 
