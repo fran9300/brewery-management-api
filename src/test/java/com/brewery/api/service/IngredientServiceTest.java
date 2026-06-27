@@ -96,7 +96,6 @@ class IngredientServiceTest {
 
 
 
-
     @Test
     void shouldThrowExceptionWhenIngredientDoesNotExist(){
 

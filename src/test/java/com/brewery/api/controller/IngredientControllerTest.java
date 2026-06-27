@@ -5,6 +5,7 @@ import com.brewery.api.dto.ingredient.IngredientRequest;
 import com.brewery.api.dto.ingredient.IngredientResponse;
 import com.brewery.api.service.IngredientService;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import tools.jackson.databind.ObjectMapper;
 
 import org.junit.jupiter.api.Test;
@@ -71,8 +72,6 @@ class IngredientControllerTest {
 
 
 
-
-
     @Test
     void shouldCreateIngredient() throws Exception {
 
@@ -122,8 +121,6 @@ class IngredientControllerTest {
 
 
 
-
-
     @Test
     void shouldDeleteIngredient() throws Exception {
 
@@ -143,6 +140,67 @@ class IngredientControllerTest {
 
         verify(ingredientService)
                 .delete(1L);
+
+    }
+
+
+
+    @Test
+    void shouldNotCreateDuplicateIngredient() throws Exception {
+
+        IngredientRequest request =
+                new IngredientRequest(
+                        "LUPULO",
+                        "HOP",
+                        10.0,
+                        "GRAM"
+                );
+
+
+        when(ingredientService.save(any()))
+                .thenThrow(new DataIntegrityViolationException("uq_ingredients_name"));
+
+
+        mockMvc.perform(
+                        post("/api/ingredients")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request))
+                )
+
+                .andExpect(status().isConflict())
+
+                .andExpect(jsonPath("$.message")
+                        .value("Ingredient name already exists"));
+    }
+
+
+
+    @Test
+    void shouldNotDeleteIngredientUsedInRecipe() throws Exception {
+
+
+        doThrow(
+                new DataIntegrityViolationException(
+                        "fk_ingredient"
+                )
+        )
+                .when(ingredientService)
+                .delete(1L);
+
+
+
+        mockMvc.perform(
+                        delete("/api/ingredients/1")
+                )
+
+
+                .andExpect(status().isConflict())
+
+
+                .andExpect(jsonPath("$.message")
+                        .value(
+                                "Ingredient cannot be deleted because it is used in a recipe"
+                        ));
 
     }
 

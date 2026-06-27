@@ -58,9 +58,21 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ErrorResponse handleDatabase(WebRequest request, DataIntegrityViolationException ex){
+    public ErrorResponse handleDatabase(
+            WebRequest request,
+            DataIntegrityViolationException ex){
 
         String message = "Database constraint violation";
+
+        if(ex.getMessage().contains("uq_ingredients_name")){
+            message = "Ingredient name already exists";
+        }
+
+
+        if(ex.getMessage().contains("uq_recipes_name")){
+            message = "Recipe name already exists";
+        }
+
 
         if(ex.getMessage().contains("fk_ingredient")){
             message = "Ingredient cannot be deleted because it is used in a recipe";

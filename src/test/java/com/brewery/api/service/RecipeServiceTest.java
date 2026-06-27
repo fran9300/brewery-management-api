@@ -81,7 +81,6 @@ class RecipeServiceTest {
 
 
 
-
     @Test
     void shouldFindRecipeById(){
 
@@ -109,8 +108,6 @@ class RecipeServiceTest {
         );
 
     }
-
-
 
 
 
@@ -165,9 +162,6 @@ class RecipeServiceTest {
 
 
 
-
-
-
     @Test
     void shouldThrowExceptionWhenRecipeDoesNotExist(){
 
@@ -181,8 +175,6 @@ class RecipeServiceTest {
         );
 
     }
-
-
 
 
 

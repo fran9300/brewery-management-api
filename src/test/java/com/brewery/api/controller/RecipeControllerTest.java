@@ -5,6 +5,7 @@ import com.brewery.api.dto.recipe.RecipeRequest;
 import com.brewery.api.dto.recipe.RecipeResponse;
 import com.brewery.api.service.RecipeService;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import tools.jackson.databind.ObjectMapper;
 
 import org.junit.jupiter.api.Test;
@@ -69,8 +70,6 @@ class RecipeControllerTest {
 
 
 
-
-
     @Test
     void shouldCreateRecipe() throws Exception {
 
@@ -121,8 +120,6 @@ class RecipeControllerTest {
 
 
 
-
-
     @Test
     void shouldAddIngredientToRecipe() throws Exception {
 
@@ -161,8 +158,6 @@ class RecipeControllerTest {
 
 
 
-
-
     @Test
     void shouldDeleteRecipe() throws Exception {
 
@@ -186,6 +181,7 @@ class RecipeControllerTest {
                 .delete(1L);
 
     }
+
 
 
     @Test
@@ -229,6 +225,75 @@ class RecipeControllerTest {
 
         verify(recipeService)
                 .update(eq(1L), any());
+
+    }
+
+
+
+    @Test
+    void shouldNotCreateDuplicateRecipe() throws Exception {
+
+
+        RecipeRequest request =
+                new RecipeRequest(
+                        "American IPA",
+                        "IPA",
+                        "Boil malt"
+                );
+
+
+        when(recipeService.save(any()))
+                .thenThrow(
+                        new DataIntegrityViolationException(
+                                "uq_recipes_name"
+                        )
+                );
+
+
+        mockMvc.perform(
+                        post("/api/recipes")
+                                .contentType(APPLICATION_JSON)
+                                .content(
+                                        objectMapper.writeValueAsString(request)
+                                )
+                )
+
+                .andExpect(status().isConflict())
+
+                .andExpect(jsonPath("$.message")
+                        .value("Recipe name already exists"));
+    }
+
+
+
+    @Test
+    void shouldGetRecipeById() throws Exception {
+
+
+        RecipeResponse response =
+                new RecipeResponse(
+                        1L,
+                        "American IPA",
+                        "IPA",
+                        "Boil malt",
+                        List.of()
+                );
+
+
+        when(recipeService.findById(1L))
+                .thenReturn(response);
+
+
+
+        mockMvc.perform(
+                        get("/api/recipes/1")
+                )
+
+
+                .andExpect(status().isOk())
+
+                .andExpect(jsonPath("$.name")
+                        .value("American IPA"));
 
     }
 
