@@ -95,7 +95,7 @@ class RecipeServiceTest {
         );
 
 
-        when(recipeRepository.findById(1L))
+        when(recipeRepository.findByIdWithIngredients(1L))
                 .thenReturn(Optional.of(recipe));
 
 
@@ -133,7 +133,7 @@ class RecipeServiceTest {
 
 
 
-        when(recipeRepository.findById(1L))
+        when(recipeRepository.findByIdWithIngredients(1L))
                 .thenReturn(Optional.of(recipe));
 
 
@@ -171,7 +171,7 @@ class RecipeServiceTest {
     @Test
     void shouldThrowExceptionWhenRecipeDoesNotExist(){
 
-        when(recipeRepository.findById(99L))
+        when(recipeRepository.findByIdWithIngredients(99L))
                 .thenReturn(Optional.empty());
 
 
@@ -194,7 +194,7 @@ class RecipeServiceTest {
         recipe.setId(1L);
 
 
-        when(recipeRepository.findById(1L))
+        when(recipeRepository.findByIdWithIngredients(1L))
                 .thenReturn(Optional.of(recipe));
 
 
