@@ -40,5 +40,5 @@ CREATE TABLE recipe_ingredients (
                                     CONSTRAINT fk_ingredient
                                         FOREIGN KEY(ingredient_id)
                                             REFERENCES ingredients(id)
-                                            ON DELETE CASCADE
+                                            ON DELETE RESTRICT
 );

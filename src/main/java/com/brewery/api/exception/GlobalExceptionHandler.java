@@ -58,13 +58,19 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ErrorResponse handleDatabase(WebRequest request){
+    public ErrorResponse handleDatabase(WebRequest request, DataIntegrityViolationException ex){
+
+        String message = "Database constraint violation";
+
+        if(ex.getMessage().contains("fk_ingredient")){
+            message = "Ingredient cannot be deleted because it is used in a recipe";
+        }
 
         return new ErrorResponse(
                 LocalDateTime.now(),
                 409,
                 "Conflict",
-                "Database constraint violation",
+                message,
                 request.getDescription(false)
 
         );
